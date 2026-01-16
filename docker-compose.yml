@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
 
   redash:
-    image: redash/redash:10.1.0
+    image: redash/redash:latest
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,7 +56,7 @@ services:
     restart: unless-stopped
 
   redash-worker:
-    image: redash/redash:10.1.0
+    image: redash/redash:latest
     depends_on:
       - postgres
       - redis
