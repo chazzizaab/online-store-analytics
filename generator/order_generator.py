@@ -19,14 +19,53 @@ DB_CONFIG = {
 }
 
 PRODUCTS = [
-    {"id": 1, "name": "Смартфон", "category": "Электроника", "price": 29990.0},
-    {"id": 2, "name": "Ноутбук", "category": "Электроника", "price": 74990.0},
-    {"id": 3, "name": "Кроссовки", "category": "Одежда и обувь", "price": 5490.0},
-    {"id": 4, "name": "Кофемашина", "category": "Бытовая техника", "price": 21990.0},
-    {"id": 5, "name": "Книга", "category": "Книги", "price": 890.0},
+    {"id": 1, "name": "iPhone 15 Pro 256GB", "category": "Смартфоны", "price": 119990.0},
+    {"id": 2, "name": "Samsung Galaxy S24 Ultra", "category": "Смартфоны", "price": 109990.0},
+    {"id": 3, "name": "Xiaomi Redmi Note 13 Pro", "category": "Смартфоны", "price": 34990.0},
+    {"id": 4, "name": "MacBook Air M3 13\"", "category": "Ноутбуки", "price": 134990.0},
+    {"id": 5, "name": "Lenovo IdeaPad 5 Pro", "category": "Ноутбуки", "price": 89990.0},
+    {"id": 6, "name": "ASUS ROG Strix G16", "category": "Игровые ноутбуки", "price": 159990.0},
+    {"id": 7, "name": "Sony WH-1000XM5", "category": "Наушники", "price": 34990.0},
+    {"id": 8, "name": "Apple AirPods Pro 2", "category": "Наушники", "price": 24990.0},
+    {"id": 9, "name": "Nike Air Force 1", "category": "Обувь", "price": 12990.0},
+    {"id": 10, "name": "Adidas Ultraboost 5.0", "category": "Обувь", "price": 14990.0},
+    {"id": 11, "name": "Levi's 501 Original", "category": "Джинсы", "price": 7990.0},
+    {"id": 12, "name": "The North Face Jacket", "category": "Одежда", "price": 18990.0},
+    {"id": 13, "name": "DeLonghi Magnifica", "category": "Кофемашины", "price": 54990.0},
+    {"id": 14, "name": "Philips Airfryer XXL", "category": "Кухонная техника", "price": 12990.0},
+    {"id": 15, "name": "Dyson V15 Detect", "category": "Пылесосы", "price": 69990.0},
+    {"id": 16, "name": "Книга 'Мастер и Маргарита'", "category": "Книги", "price": 890.0},
+    {"id": 17, "name": "Книга '1984' Дж. Оруэлл", "category": "Книги", "price": 750.0},
+    {"id": 18, "name": "PlayStation 5 Slim", "category": "Игровые консоли", "price": 64990.0},
+    {"id": 19, "name": "Nintendo Switch OLED", "category": "Игровые консоли", "price": 32990.0},
+    {"id": 20, "name": "Apple Watch Series 9", "category": "Умные часы", "price": 45990.0},
+    {"id": 21, "name": "Canon EOS R50", "category": "Фототехника", "price": 89990.0},
+    {"id": 22, "name": "GoPro Hero 12", "category": "Экшн-камеры", "price": 45990.0},
+    {"id": 23, "name": "Xiaomi Scooter 4 Pro", "category": "Электротранспорт", "price": 49990.0},
+    {"id": 24, "name": "JBL Flip 6", "category": "Портативные колонки", "price": 8990.0},
+    {"id": 25, "name": "Samsung Galaxy Watch 6", "category": "Умные часы", "price": 32990.0},
 ]
-CITIES = ["Владивосток", "Москва", "Новосибирск", "Сочи", "Калининград"]
 
+CITIES_WEIGHTED = {
+    "Москва": 30,
+    "Санкт-Петербург": 20,
+    "Екатеринбург": 10,
+    "Казань": 8,
+    "Новосибирск": 7,
+    "Нижний Новгород": 5,
+    "Воронеж": 4,
+    "Уфа": 1,
+    "Пермь": 2,
+    "Владивосток": 3.5,
+    "Сочи": 2.3,
+    "Калининград": 4.2
+}
+
+def choose_city_weighted():
+    """Выбирает город с учетом весов (вероятностей)"""
+    cities = list(CITIES_WEIGHTED.keys())
+    weights = list(CITIES_WEIGHTED.values())
+    return random.choices(cities, weights=weights, k=1)[0]
 
 def create_orders_table(conn):
     with conn.cursor() as cur:
@@ -54,7 +93,7 @@ def generate_order():
         'category': product['category'],
         'price': product['price'],
         'quantity': random.randint(1, 3),
-        'city': random.choice(CITIES),
+        'city': choose_city_weighted(),
         'order_date': datetime.now()
     }
 
